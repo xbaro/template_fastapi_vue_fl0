@@ -1,4 +1,0 @@
-# FastAPI with all dependencies
-fastapi[all]
-# Database migration management
-alembic
