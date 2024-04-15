@@ -31,18 +31,6 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_user_email"), "user", ["email"], unique=True)
-    op.create_table(
-        "item",
-        sa.Column("description", sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-        sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("title", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
-        sa.Column("owner_id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["owner_id"],
-            ["user.id"],
-        ),
-        sa.PrimaryKeyConstraint("id"),
-    )
     # ### end Alembic commands ###
 
 

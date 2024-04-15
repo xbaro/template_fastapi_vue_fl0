@@ -1,4 +1,3 @@
-import os
 import secrets
 import warnings
 from typing import Annotated, Any, Literal
@@ -35,24 +34,10 @@ def parse_cors(v: Any) -> list[str] | str:
         return v
     raise ValueError(v)
 
-def get_env_file() -> str:
-    """
-        Check default locations for .env configuration file
-        :return: configuration file
-    """
-    top_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), '.env')
-    if os.path.exists('.env'):
-        env_file = '.env'
-    elif os.path.exists(top_path):
-        env_file = top_path
-    else:
-        env_file = '.env'
-
-    return env_file
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=get_env_file(), env_ignore_empty=True, extra="ignore"
+        env_file=".env", env_ignore_empty=True, extra="ignore"
     )
     API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = secrets.token_urlsafe(32)
@@ -100,7 +85,7 @@ class Settings(BaseSettings):
             )
         elif self.DB_ENGINE == 'sqlite':
             if self.DB_NAME is None:
-                self.DB_NAME = os.path.join(os.path.dirname(get_env_file()), 'sd_db.sqlite')
+                self.DB_NAME = 'sd_db.sqlite'
             database_uri = MultiHostUrl.build(
                 scheme="sqlite",
                 host='',
@@ -161,5 +146,3 @@ class Settings(BaseSettings):
         )
 
         return self
-
-settings = Settings()

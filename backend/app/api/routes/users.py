@@ -12,7 +12,6 @@ from app.api.deps import (
 from app.core.config import settings
 from app.core.security import get_password_hash, verify_password
 from app.models import (
-    Item,
     Message,
     UpdatePassword,
     User,
@@ -29,7 +28,9 @@ router = APIRouter()
 
 
 @router.get(
-    "/", dependencies=[Depends(get_current_active_superuser)], response_model=UsersOut
+    "/",
+    #dependencies=[Depends(get_current_active_superuser)],
+    response_model=UsersOut
 )
 def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
     """
@@ -46,7 +47,9 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
 
 
 @router.post(
-    "/", dependencies=[Depends(get_current_active_superuser)], response_model=UserOut
+    "/",
+    #dependencies=[Depends(get_current_active_superuser)],
+    response_model=UserOut
 )
 def create_user(*, session: SessionDep, user_in: UserCreate) -> Any:
     """
@@ -212,8 +215,6 @@ def delete_user(
             status_code=403, detail="Super users are not allowed to delete themselves"
         )
 
-    statement = delete(Item).where(col(Item.owner_id) == user_id)
-    session.exec(statement)  # type: ignore
     session.delete(user)
     session.commit()
     return Message(message="User deleted successfully")

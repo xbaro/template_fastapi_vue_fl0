@@ -1,8 +1,13 @@
 import os
 from logging.config import fileConfig
+import sys
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
+from pydantic_settings import SettingsConfigDict
+
+# Ensure Alembic can find application packages
+sys.path = ['', '..'] + sys.path[1:]
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -19,6 +24,7 @@ fileConfig(config.config_file_name)
 # target_metadata = None
 
 from app.models import SQLModel  # noqa
+from app.core.config import settings
 
 target_metadata = SQLModel.metadata
 
@@ -34,32 +40,7 @@ def get_url():
         :rtype: str
         :return: Connection url
     """
-    # Get the database engine to be used
-    db_engine = os.getenv("DB_ENGINE", "sqlite").upper()
-    # User to authenticate with the database
-    db_user = os.getenv("DB_USER")
-    # Password to authenticate with the database
-    db_password = os.getenv("DB_PASSWORD")
-    # Database host
-    db_host = os.getenv("DB_HOST")
-    # Database name to be used
-    db_name = os.getenv("DB_NAME")
-    # Port to be used
-    db_port = os.getenv("DB_PORT")
-
-    if db_engine == "SQLITE":
-        if db_name is None:
-            db_name = "ub_sd_database.sqlite"
-        return f"sqlite:///{db_name}"
-    if db_engine == "MYSQL":
-        return f"mysql+mysqldb://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-    if db_engine == "POSTGRES":
-        if db_port is None:
-            db_port = 5432
-        return f"postgresql+psycopg://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-
-    return None
-
+    return settings.SQLALCHEMY_DATABASE_URI.__str__()
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
