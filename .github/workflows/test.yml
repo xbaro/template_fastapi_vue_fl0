@@ -13,7 +13,7 @@ on:
 env:
   DB_ENGINE: postgres
   DB_USER: db_user
-  DB_HOST: db
+  DB_HOST: postgres
   DB_PASSWORD: db_user_pass
   DB_NAME: ub_sd_p2
   ADMIN_USER: admin
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     # Service containers to run with `runner-job`
     services:
-      db:
+      postgres:
         image: postgres:12
         env:
           POSTGRES_PASSWORD: env.DB_PASSWORD
@@ -77,6 +77,7 @@ jobs:
           FIRST_SUPERUSER_PASSWORD: env.ADMIN_PASSWORD
         run: |
           cd backend
+          poetry run alembic upgrade head
           poetry run pytest
       - name: Store coverage files
         uses: actions/upload-artifact@v4
