@@ -9,7 +9,16 @@ https://github.com/tiangolo/full-stack-fastapi-template/tree/master
 En el projecte es defineixen dues aplicacions diferents, el back-end i el front-end. 
 
 ***
-**[TODO]** Definir els dos mòduls, esquema amb db.
+El **backend (servidor)** fa referència a la part d'una aplicació que no és visible als usuaris. Entre les seves funciona habituals hi ha:  
+* La lògica de negoci: Implementa les regles i processos vinculats a l'aplicació.
+* Base de dades: Guarda i gestiona les dades de l'aplicació.
+* Seguretat: Implementa les polítiques d'accés a l'aplicació a les seves dades, gestionant l'autenticació i autorització d'usuaris.
+* Processa les sol·licituds (API): Gestiona les sol·licituds del frontend.
+
+El **frontend (client)** s'ocupa principalment de la interacció amb l'usuari. Principalment s'encarrega de:
+* Disseny de pàgines: Organització visual de la informació i la seva navegació.
+* Botons i formular: Elementos interactius amb els que l'usuari pot interactuar.
+* Continguts Visuals: Imàtges, vídeos i texto.
 ***
 
 A continuació veurem com podem desplegar el projecte i començar a implementar les funcionalitats requerides.
@@ -22,7 +31,7 @@ Utilitzarem [Poetry](https://python-poetry.org/) com a configurador del nostre p
 Aquest configurador ens permet definir les propietats bàsiques del projecte i les seves dependències.
 
 La definició del projecte es troba en el fitxer [pyproject.toml](./backend/pyproject.toml). 
-Si el reviseu, veureu que inclou tant informació del projecte (nom, versió, ...), 
+Si el reviseu, veureu que inclou tant informació del projecte (nom, versió, etc.), 
 com la llista de dependències que necessita.
 
 El primer que necessitarem és instal·lar Poetry. Podeu seguir les instruccions actualitzades que trobareu a la seva [documentació](https://python-poetry.org/docs/#installation), o utilitzar l'instal·lador manual:
@@ -59,9 +68,13 @@ obrir un intèrpret de Python dins aquest entorn:
 ```bash
 poetry shell
 ```
-o activar l'entorn per a que sigui el nostre per defecte:
+activar l'entorn perquè sigui el nostre per defecte:
 ```bash
 poetry env use
+```
+o executar qualsevol comanda dins de l'entorn:
+```bash
+poetry run <comanda>
 ```
 
 ***
@@ -70,7 +83,7 @@ poetry env use
 
 ### 1.1.2. Configuració del backend
 La configuració de la nostra aplicació la farem via un fitxer d'entorn ```.env```. 
-Aquest fitxer contindrà informació sensible, com ara contrasenyes, pel que cal assegurar que
+Aquest fitxer contindrà informació confidencial, com ara contrasenyes, per la qual cosa cal assegurar que
 no es guarda al repositori de codi (GitHub). Podeu comprovar que el fitxer ```.gitignore``` conté
 una línia amb aquest fitxer, fent que s'ignori.
 
@@ -97,7 +110,23 @@ alembic upgrade head
 
 Si tot ha anat bé, s'haurà creat un fitxer ```sd_db.sqlite```, que conté la nostra base de dades.
 
+### 1.1.4. Aixecar el backend
+Ha arribat l'hora d'aixecar el backend. Per fer-ho, cal executar la comanda:
 
+```bash
+poetry run uvicorn app.main:app
+```
+
+Si estem fent canvis, podem afegir el paràmetre ```--reload``` per tal que s'apliquin automàticament els canvis que fem al codi:
+
+```bash
+poetry run uvicorn app.main:app --reload
+```
+Addicionalment, podem seleccionar un port diferent afegint ```--port #port``` o fer que escolti a connexions d'altres màquines amb ```--host 0.0.0.0```.
+
+### 1.1.4. Accés a la informació de l'API
+El backend defineix una API, la qual permetrà que el frontend interactui amb l'aplicació. Un cop aixecat el backend, podem veure 
+les funcionalitats de l'API visitant l'adreça (http://127.0.0.1:8000/docs)[http://127.0.0.1:8000/docs].
 
 
 ## 1.2. Frontend

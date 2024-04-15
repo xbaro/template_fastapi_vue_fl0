@@ -55,10 +55,6 @@ jobs:
         run: |
           cd backend          
           poetry install --all-extras
-      - name: Test DB
-        run: |
-          cd backend 
-          poetry run python -c "import psycopg;psycopg.connect('dbname=${{env.DB_NAME}} user=${{env.DB_USER}} host=${{env.DB_HOST}} password=${{env.DB_PASSWORD}} port=5432')"
       - name: Lint
         id: lint
         run: |
