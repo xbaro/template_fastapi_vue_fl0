@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - '!badges'
   pull_request:
     types:
       - opened
@@ -18,7 +19,6 @@ env:
   ADMIN_USER: admin
   ADMIN_PASSWORD: admin_pass
   APPLICATION_NAME: ub_sd_p2
-
 jobs:
 
   test:
@@ -57,6 +57,10 @@ jobs:
         run: |
           echo ${{ steps.lint.outputs.score }}
       - name: Run tests
+        env:
+          PROJECT_NAME: env.APPLICATION_NAME
+          FIRST_SUPERUSER: env.ADMIN_USER
+          FIRST_SUPERUSER_PASSWORD: env.ADMIN_PASSWORD
         run: |
           cd backend
           poetry run pytest
@@ -65,6 +69,13 @@ jobs:
         with:
           name: coverage-html
           path: backend/htmlcov
+      - name: Create lint badge
+        uses: emibcn/badge-action@v2.0.3
+        with:
+          label: 'pylint'
+          status: ${{ steps.lint.outputs.score }}
+          color: 'blue,555,daf'
+          path: '.github/badges/pylint.svg'
 
   # https://github.com/marketplace/actions/alls-green#why
   alls-green:  # This job does nothing and is only used for the branch protection
