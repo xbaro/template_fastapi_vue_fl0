@@ -57,8 +57,9 @@ jobs:
         run: |
           echo ${{ steps.lint.outputs.score }}
       - name: Run tests
-        run: bash /app/tests-start.sh "Coverage for ${{ github.sha }}"
-
+        run: |
+          cd backend
+          poetry run pytest
       - name: Store coverage files
         uses: actions/upload-artifact@v4
         with:
