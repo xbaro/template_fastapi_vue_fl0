@@ -31,9 +31,6 @@ target_metadata = SQLModel.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-from logging import getLogger
-
-logger = getLogger()
 def get_url():
     """
         Create the database connection URL from environment parameters
@@ -41,8 +38,6 @@ def get_url():
         :return: Connection url
     """
     url_str = settings.SQLALCHEMY_DATABASE_URI.__str__()
-
-    logger.error(url_str)
 
     return url_str
 
