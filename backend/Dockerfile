@@ -26,4 +26,9 @@ COPY ./prestart.sh /app/
 
 #COPY ./tests-start.sh /app/
 
-COPY ./app /app/app
+COPY ./app /app/app/
+
+# Remove default main file
+RUN rm /app/main.py
+
+# poetry run uvicorn app.main:app --host 0.0.0.0 --port $PORT
