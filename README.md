@@ -6,7 +6,7 @@ Aquesta plantilla és una simplificació d'una estructura "full-stack" que podeu
 
 https://github.com/tiangolo/full-stack-fastapi-template/tree/master
 
-En el projecte es defineixen dues aplicacions diferents, el back-end i el front-end. 
+En el projecte es defineixen dues aplicacions diferents, el backend i el frontend. 
 
 ***
 El **backend (servidor)** fa referència a la part d'una aplicació que no és visible als usuaris. Entre les seves funciona habituals hi ha:  
