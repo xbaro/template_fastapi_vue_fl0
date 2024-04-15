@@ -47,10 +47,15 @@ jobs:
           cd backend          
           poetry install --all-extras
       - name: Lint
+        id: lint
         run: |
           cd backend
           poetry run pylint --exit-zero --output-format=text --max-line-length=120 app | tee /tmp/pylint.txt
           sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' /tmp/pylint.txt > /tmp/pylint.score
+          echo "score=$(cat /tmp/pylint.score)" >> $GITHUB_OUTPUT
+      - name: Lint Badge
+        run: |
+          echo ${{ steps.lint.outputs.score }}
       - name: Run tests
         run: bash /app/tests-start.sh "Coverage for ${{ github.sha }}"
 
