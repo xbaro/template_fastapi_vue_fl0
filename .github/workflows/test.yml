@@ -47,10 +47,9 @@ jobs:
           cd backend          
           poetry install --all-extras
       - name: Lint
-        uses: Silleellie/pylint-github-action@v2
-        with:
-          lint-path: app
-          python-version: 3.10
+        run: |
+          cd backend
+          poetry run pylint app --max-line-length=120
       - name: Run tests
         run: bash /app/tests-start.sh "Coverage for ${{ github.sha }}"
 
