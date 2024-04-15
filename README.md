@@ -1,3 +1,4 @@
+[![Test](https://github.com/xbaro/template_fastapi_vue_fl0/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/xbaro/template_fastapi_vue_fl0/actions/workflows/test.yml)
 ![pylint]() or [![pylint]()](https://redirect/link)
 #  Pràctica 2 Sofware Distribuït
 
