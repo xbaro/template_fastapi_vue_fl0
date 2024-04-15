@@ -64,6 +64,7 @@ jobs:
           echo "score=$(cat /tmp/pylint.score)" >> $GITHUB_OUTPUT
       - name: Create lint badge
         uses: emibcn/badge-action@v2.0.3
+        continue-on-error: true
         with:
           label: 'pylint'
           status: ${{ steps.lint.outputs.score }}
