@@ -126,7 +126,7 @@ Addicionalment, podem seleccionar un port diferent afegint ```--port #port``` o 
 
 ### 1.1.4. Accés a la informació de l'API
 El backend defineix una API, la qual permetrà que el frontend interactui amb l'aplicació. Un cop aixecat el backend, podem veure 
-les funcionalitats de l'API visitant l'adreça (http://127.0.0.1:8000/docs)[http://127.0.0.1:8000/docs].
+les funcionalitats de l'API visitant l'adreça [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
 
 ## 1.2. Frontend
