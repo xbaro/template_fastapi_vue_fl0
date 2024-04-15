@@ -28,9 +28,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: env.DB_PASSWORD
-          POSTGRES_USER: env.DB_USER
-          POSTGRES_DB: env.DB_NAME
+          POSTGRES_PASSWORD: db_user_pass
+          POSTGRES_USER: db_user
+          POSTGRES_DB: ub_sd_p2
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
