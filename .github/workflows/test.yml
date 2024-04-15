@@ -31,6 +31,15 @@ jobs:
           POSTGRES_PASSWORD: env.DB_PASSWORD
           POSTGRES_USER: env.DB_USER
           POSTGRES_DB: env.DB_NAME
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,9 +62,13 @@ jobs:
           poetry run pylint --exit-zero --output-format=text --max-line-length=120 app | tee /tmp/pylint.txt
           sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' /tmp/pylint.txt > /tmp/pylint.score
           echo "score=$(cat /tmp/pylint.score)" >> $GITHUB_OUTPUT
-      - name: Lint Badge
-        run: |
-          echo ${{ steps.lint.outputs.score }}
+      - name: Create lint badge
+        uses: emibcn/badge-action@v2.0.3
+        with:
+          label: 'pylint'
+          status: ${{ steps.lint.outputs.score }}
+          color: 'blue,555,daf'
+          path: '.github/badges/pylint.svg'
       - name: Run tests
         env:
           PROJECT_NAME: env.APPLICATION_NAME
@@ -69,14 +82,6 @@ jobs:
         with:
           name: coverage-html
           path: backend/htmlcov
-      - name: Create lint badge
-        uses: emibcn/badge-action@v2.0.3
-        with:
-          label: 'pylint'
-          status: ${{ steps.lint.outputs.score }}
-          color: 'blue,555,daf'
-          path: '.github/badges/pylint.svg'
-
   # https://github.com/marketplace/actions/alls-green#why
   alls-green:  # This job does nothing and is only used for the branch protection
     if: always()
