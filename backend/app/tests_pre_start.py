@@ -1,3 +1,4 @@
+""" Script used to prepare testing on production """
 import logging
 
 from sqlalchemy import Engine

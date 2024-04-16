@@ -1,3 +1,4 @@
+""" Tests configuration module """
 from collections.abc import Generator
 
 import pytest

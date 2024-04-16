@@ -5,7 +5,7 @@ Aquesta plantilla és una simplificació d'una estructura "full-stack" que podeu
 
 https://github.com/tiangolo/full-stack-fastapi-template/tree/master
 
-Teniu l'enunciat i les guies al repositori de l'enunciat associat a aquest codi inicial:
+Teniu **l'enunciat i les guies** al repositori de l'enunciat associat a aquest codi inicial:
 
 https://github.com/SoftwareDistribuitUB-2024/Enunciat_P2
 
@@ -224,10 +224,89 @@ vue ui
 
 i navegueu a l'URL <http://localhost:8000/>.
 
+### 1.2.5. Compilar el frontend
 
-# 2. Desplegament a producció
+Per generar els fitxers del frontend per a la seva distribució caldrà compilar-los. Per fer-ho, 
+executeu:
+
+```bash
+npm run build
+```
 
 
 ```bash
 python3 -m http.server
 ```
+
+
+# 2. Documentació
+
+Per generar la memòria del lliurament de la pràctica, utilitzarem un entorn de generació de documentació basat en markdown.
+En el directori ```docs``` del repositori trobareu el següent:
+
+* Un fitxer ```book.toml``` amb la configuració principal de la documentació. Modifiqueu l'autor i la informació que considereu.
+* Una carpeta ```src``` amb els fitxers de la documentació.
+
+Dins el directori de codi ```src``` hi ha un fitxer **SUMMARY.md** que conté l'índex de la documentació, i enllaça els diferents fitxers amb la resta d'apartats.
+Podeu trobar més informació a la documentació del framework [mdBook](https://rust-lang.github.io/mdBook/index.html).
+
+## 2.1 Generació de la documentació
+
+**Producció**
+
+La documentació es genera automàticament cada cop que actualitzeu el codi a la branca principal, i queda guardada al pròpi GitHub.
+Utilitzem [GitHub Pages](https://pages.github.com/). Cal tenir activat l'ús de Pages a la configuració del repositori, on 
+també trobareu l'URL a la qual podeu accedir al document generat.
+
+**Desenvolupament**
+
+Podeu previsualitzar l'estructura de la documentació seguint els següents passos:
+
+1. Descarregueu l'executable per al vostre sistema del [repositori de mdBook](https://github.com/rust-lang/mdBook/releases).
+2. Des de l'arrel del repositori, executeu ```mdbook serve docs``` i accedir a la previsualització accedint a <http://localhost:3000>.
+3. Des de l'arrel del repositori, executeu ```mdbook build docs``` i es generarà la versió html de la documentació.
+
+# 3. Desplegament a producció
+
+Generalment en el desenvolupament d'aplicacions informàtiques es defineixen diferents entorns, que ajuden a assegurar la qualitat
+del software. Dos dels entorns que no poden faltar són el de **desenvolupament** i **producció**. El de desenvolupament
+està pensat perquè reflecteixi de forma ràpida els canvis en el codi, agilitzant la tasca dels desenvolupadors i facilitant la depuració del codi.
+La de producció pel contrari, acostuma a incorporar optimitzacions del codi per minimitzar-ne la mida i maximitzar-ne el rendiment.
+
+Els desplegaments que hem vist del backend a la secció [1.1.4](#1.1.4.-Aixecar-el-backend) i del frontend a la secció [1.2.4](#1.2.4.-Executar-el-frontend),
+correspondrien a l'entorn de **desenvolupament**.
+
+L'entorn de **producció** es desplegarà cada vegada que actualitzem el contingut de la **branca principal** del repositori. En l'actualitat, el més habitual és
+utilitzar un entorn cloud (com Amazon Web Services o Microsoft Azure) en comptes de servidors físics. En el nostre cas utilitzarem la plataforma cloud [render.com](https://render.com/),
+que ens permet fer el desplegament d'aplicacions petites de forma gratuïta.
+
+## 3.1 Crear un compte d'usuari
+
+El primer pas serà donar-nos d'alta a [render.com](https://render.com/). Podem crear el compte directament a partir del nostre compte de GitHub.
+
+![image](docs/images/render_register.png)
+
+Un cop tinguem un compte, podem veure la llista de serveis que ens ofereix la plataforma:
+
+![image](docs/images/render_services.png)
+
+Els que ens interessaran en el nostre cas seran:
+- **PostreSQL:** Ens permetrà crear una base de dades al núvol.
+- **Web Services:** Ens permetrà desplegar el backend al núvol.
+- **Static Sites:** Ens permetrà desplegar el frontend al núvol.
+
+Cal ser conscients que en utilitzar el servei gratuit, tindrem una sèrie de limitacions en tot el que despleguem,
+com l'espai que podem utilitzar, el trànsit d'usuaris o els temps de resposta, que seràn més grans que en un desplegament
+de pagament. En cas d'innactivitat, el sistema quedarà aturat, i per tant la primera vegada que vulguem tornar a utilitzar-lo 
+ens trigarà considerablement (aproximadament 1-2 minuts).
+
+## 3.2 Crear una base de dades
+
+Sel·leccionarem el servei PostgreSQL i demanarem crear una nova base de dades. 
+
+![image](docs/images/render_db1.png)
+
+
+
+
+

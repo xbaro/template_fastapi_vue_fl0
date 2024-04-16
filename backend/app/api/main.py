@@ -1,3 +1,4 @@
+""" Main API routes definition """
 from fastapi import APIRouter
 
 from app.api.routes import login, users, utils

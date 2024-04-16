@@ -1,3 +1,4 @@
+""" Script used to prepare backend start on production """
 import logging
 
 from sqlalchemy import Engine

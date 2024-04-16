@@ -1,3 +1,4 @@
+""" Application configuration module """
 import os
 import secrets
 import warnings

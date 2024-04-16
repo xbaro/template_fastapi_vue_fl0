@@ -1,3 +1,4 @@
+""" Module with initial database data """
 import logging
 
 from sqlmodel import Session

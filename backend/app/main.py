@@ -1,3 +1,4 @@
+""" Main application module """
 import sentry_sdk
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
