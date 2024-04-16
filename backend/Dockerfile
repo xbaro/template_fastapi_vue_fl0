@@ -1,34 +1,21 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
+FROM python:3.10 as requirements-stage
 
-WORKDIR /app/
+WORKDIR /tmp
 
-# Install Poetry
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python && \
-    cd /usr/local/bin && \
-    ln -s /opt/poetry/bin/poetry && \
-    poetry config virtualenvs.create false
+RUN pip install poetry
+COPY ./pyproject.toml ./poetry.lock* /tmp/
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 
-# Copy poetry.lock* in case it doesn't exist in the repo
-COPY ./pyproject.toml ./poetry.lock* /app/
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11
 
-# Allow installing dev dependencies to run tests
-ARG INSTALL_DEV=false
-RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; else poetry install --no-root --only main ; fi"
+COPY --from=requirements-stage /tmp/requirements.txt /app/requirements.txt
 
-ENV PYTHONPATH=/app
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
-#COPY ./scripts/ /app/
+COPY ./app /app/app/
+
 
 COPY ./alembic.ini /app/
 COPY ./alembic /app/alembic
 
 COPY ./prestart.sh /app/
-
-#COPY ./tests-start.sh /app/
-
-COPY ./app /app/app/
-
-# Override default main.py
-COPY ./app/main.py /app/main.py
-
-# poetry run uvicorn app.main:app --host 0.0.0.0 --port $PORT
