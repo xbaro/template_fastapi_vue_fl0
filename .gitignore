@@ -1,3 +1,5 @@
+!frontend/build/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -240,3 +242,5 @@ fabric.properties
 
 *.sqlite
 docs/book
+
+!frontend/build/
